@@ -13,6 +13,8 @@ const firebaseConfig = {
   console.log(process.env.REACT_APP_FIREBASE_PROJECT_ID);
 
   // Initialize Firebase
+  // 이니셜라이징 앱을 하게 되면 이 앱이 리턴이 된다.  // 필수 !!
+  // auth 문서 확인!! 
   const firebaseApp = firebase.initializeApp(firebaseConfig);
   export default firebaseApp;
 
