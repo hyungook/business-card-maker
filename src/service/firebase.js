@@ -1,4 +1,8 @@
 import firebase from 'firebase';
+import dotenv from 'dotenv';
+
+// env 설치
+dotenv.config();
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -12,9 +16,10 @@ const firebaseConfig = {
   console.log(process.env.REACT_APP_FIREBASE_DB_URL);
   console.log(process.env.REACT_APP_FIREBASE_PROJECT_ID);
 
+  console.log(firebaseConfig);
+
   // Initialize Firebase
   // 이니셜라이징 앱을 하게 되면 이 앱이 리턴이 된다.  // 필수 !!
   // auth 문서 확인!! 
   const firebaseApp = firebase.initializeApp(firebaseConfig);
   export default firebaseApp;
-
