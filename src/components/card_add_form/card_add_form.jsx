@@ -28,7 +28,7 @@ const CardAddForm = ({ onAdd }) => {
         formRef.current.reset();
         onAdd(card);
     };
-
+    
     return(
         <form ref={formRef} className={styles.form}>
             <input
