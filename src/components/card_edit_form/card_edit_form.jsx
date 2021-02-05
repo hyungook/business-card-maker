@@ -24,6 +24,14 @@ const CardEditForm = ({FileInput, card, updateCard, deleteCard}) => {
         })
     }
 
+    const onFileChange = (file) => {
+        updateCard({
+            ...card,
+            fileName: file.name,
+            fileURL: file.url,
+        })
+    };
+
     const onSubmit = () => {
         deleteCard(card);
     };
@@ -58,7 +66,7 @@ const CardEditForm = ({FileInput, card, updateCard, deleteCard}) => {
             className={styles.textarea} name="message" value={message}
             onChange={onChange} />
             <div className={styles.fileInput}>
-                <FileInput />
+                <FileInput name={fileName} onFileChange={onFileChange}/>
             </div>
             <Button name='Delete' onClick={onSubmit}/>
         </form>
