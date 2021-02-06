@@ -8,16 +8,14 @@ const Editor = ({ FileInput, cards, addCard, updateCard, deleteCard }) => (
     <h1 className={styles.title}>Card Maker</h1>
     {Object.keys(cards).map(key => (
       <CardEditForm
-        FileInput={FileInput}
         key={key}
+        FileInput={FileInput}
         card={cards[key]}
         updateCard={updateCard}
-        deleteCard={deleteCard} />
+        deleteCard={deleteCard}
+      />
     ))}
-    <CardAddForm
-      FileInput={FileInput}
-      onAdd={addCard}
-    />
+    <CardAddForm FileInput={FileInput} onAdd={addCard} />
   </section>
 );
 

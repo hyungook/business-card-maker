@@ -9,6 +9,7 @@ const Preview = ({ cards }) => (
       {Object.keys(cards).map(key => (
         <Card key={key} card={cards[key]} />
       ))}
+  
     </ul>
   </section>
 );

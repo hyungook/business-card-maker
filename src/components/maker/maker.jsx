@@ -1,101 +1,77 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import Editor from '../editor/editor';
 import Footer from '../footer/footer';
 import Header from '../header/header';
+import Editor from '../editor/editor';
 import Preview from '../preview/preview';
 import styles from './maker.module.css';
 
-const Maker = ({FileInput, authService}) => {
+const Maker = ({ FileInput, authService, cardRepository }) => {
+    
+  const historyState = useHistory().state;
+  const [cards, setCards] = useState({});
+  const [userId, setUserId] = useState(historyState && historyState.id);
 
-    const [cards, setCards] = useState({
-        '1': {
-            id: '1',
-            name: 'hyungook',
-            company: 'Flow',
-            theme: 'dark',
-            title: 'Front-End Developer',
-            email: 'nenonenoberneno@gmail.com',
-            message: 'go for it',
-            fileName: 'hyungook',
-            fileURL: null,
-        },
-        '2': {
-            id: '2',
-            name: 'Ellie',
-            company: 'Samsung',
-            theme: 'light',
-            title: 'Software Engineer',
-            email: 'ellie@gmail.com',
-            message: 'go for it',
-            fileName: 'ellie',
-            fileURL: 'ellie.png',
-        },
-        '3': {
-            id: '3',
-            name: 'ToBackSon',
-            company: 'Google',
-            theme: 'colorful',
-            title: 'Front-End Developer',
-            email: 'ohozoa27@naver.com',
-            message: 'go for it',
-            fileName: 'toBackson',
-            fileURL: null,
-          },
+  const history = useHistory();
+  const onLogout = () => {
+    authService.logout();
+  };
+
+  useEffect(() => {
+    if (!userId) {
+      return;
+    }
+    const stopSync = cardRepository.syncCards(userId, cards => {
+      setCards(cards);
     });
+    return () => stopSync();
+  }, [userId]);
 
-    const history = useHistory();
-    const onLogout = () => {
-        authService.logout();
-    };
+  useEffect(() => {
+    authService.onAuthChange(user => {
+      if (user) {
+        setUserId(user.uid);
+        console.log(userId);
+      } else {
+        history.push('/');
+      }
+    });
+  });
 
-    useEffect(() => {
-        authService.onAuthChange(user => {
-            if(!user) {
-                history.push('/');
-            }
-        })
-    })
+  const createOrUpdateCard = card => {
+    setCards(cards => {
+      const updated = { ...cards };
+      updated[card.id] = card;
+      return updated;
+    });
+    cardRepository.saveCard(userId, card);
+  };
 
-    // const addCard = (card) => {
-    //     const updated = [...cards, card];
-    //     setCards(updated);
-    // }
+  const deleteCard = card => {
+    setCards(cards => {
+      const updated = { ...cards };
+      delete updated[card.id];
+      return updated;
+    });
+    cardRepository.removeCard(userId, card);
+  };
 
-    const createOrUpdateCard = (card) => {
-        // const updated = {...cards};
-        // updated[card.id] = card;
-        // setCards(updated);
-        setCards(cards => {
-            const updated = {...cards};
-            updated[card.id] = card;
-            return updated;
-        })
-    }
-
-    const deleteCard = (card) => {
-        setCards(cards => {
-            const updated = {...cards};
-            delete updated[card.id]
-            return updated;
-        })
-    }
-
-    return(
-        <section className={styles.maker}>
-            <Header onLogout={onLogout}/>
-            <div className={styles.container}>
-                <Editor
-                    FileInput={FileInput}
-                    cards={cards}
-                    addCard={createOrUpdateCard}
-                    updateCard={createOrUpdateCard} 
-                    deleteCard={deleteCard} />
-                <Preview cards={cards} />
-            </div>
-            <Footer />
-        </section>
-    )
-}
+  return (
+    <section className={styles.maker}>
+      <Header onLogout={onLogout} />
+      <div className={styles.container}>
+        <Editor
+          FileInput={FileInput}
+          cards={cards}
+          addCard={createOrUpdateCard}
+          updateCard={createOrUpdateCard}
+          deleteCard={deleteCard}
+        />
+        <Preview cards={cards} />
+      </div>
+      <Footer />
+    </section>
+  );
+};
 
 export default Maker;
