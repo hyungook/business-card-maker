@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import styles from './app.module.css';
 import Login from './components/login/login';
@@ -12,7 +13,11 @@ function App({FileInput , authService, cardRepository}) {
           <Login authService={authService}/>
          </Route>
          <Route path="/maker">
-          <Maker authService={authService} FileInput={FileInput} cardRepository={cardRepository}/>
+         <Maker
+              FileInput={FileInput}
+              authService={authService}
+              cardRepository={cardRepository}
+            />
          </Route>
       </Switch>
       </BrowserRouter>
