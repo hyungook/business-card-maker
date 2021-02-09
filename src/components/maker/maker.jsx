@@ -24,19 +24,19 @@ const Maker = ({ FileInput, authService, cardRepository }) => {
     const stopSync = cardRepository.syncCards(userId, cards => {
       setCards(cards);
     });
-    return () => stopSync();
-  }, [userId]);
+    return () => {stopSync();}
+  }, [userId, cardRepository]);
 
   useEffect(() => {
     authService.onAuthChange(user => {
       if (user) {
         setUserId(user.uid);
-        console.log(userId);
+        // console.log(userId);
       } else {
         history.push('/');
       }
     });
-  });
+  },[userId, authService, history]);
 
   const createOrUpdateCard = card => {
     setCards(cards => {
