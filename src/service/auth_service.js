@@ -4,7 +4,7 @@ import {firebaseAuth, githubProvider, googleProvider} from './firebase';
 class AuthService {
     login(providerName) {
         const authProvider = this.getProvider(providerName);
-        return firebaseAuth.auth().signInWithPopup(authProvider);
+        return firebaseAuth.signInWithPopup(authProvider);
         // 이니셜라이즈 된 파이어베이스를 사용해야 된다
     }
 
