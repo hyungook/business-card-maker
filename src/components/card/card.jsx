@@ -19,7 +19,6 @@ const Card = ({card}) => {
             </li>
         );
     };
-
     function getStyles(theme) {
         switch(theme) {
             case 'dark':

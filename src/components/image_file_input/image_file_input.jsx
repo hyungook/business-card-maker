@@ -4,6 +4,8 @@ import styles from './image_file_input.module.css';
 const ImageFileInput = ({ imageUploader, name, onFileChange }) => {
   const [loading, setLoading] = useState(false);
 
+  const [attachment, setAttachment] = useState();
+
   const inputRef = useRef();
   const onButtonClick = event => {
     event.preventDefault();
@@ -19,7 +21,9 @@ const ImageFileInput = ({ imageUploader, name, onFileChange }) => {
     // 2. 여기서 결과를 받는다.
     const reader = new FileReader();
     reader.onloadend = (finishedEvent) => {
-      console.log(finishedEvent);
+      // console.log(finishedEvent);
+      const {currentTarget: {result},} = finishedEvent;
+      setAttachment(result);
     }
     
     // 1. 파일을 읽고
