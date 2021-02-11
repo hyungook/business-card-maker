@@ -11,13 +11,27 @@ const ImageFileInput = ({ imageUploader, name, onFileChange }) => {
   };
 
   const onChange = async event => {
-    setLoading(true);
-    const uploaded = await imageUploader.upload(event.target.files[0]);
-    setLoading(false);
-    onFileChange({
-      name: uploaded.original_filename,
-      url: uploaded.url,
-    });
+
+    console.log(event.target.files);
+    const {target:{files},} = event;
+    const theFile = files[0];
+    // console.log(theFile);
+    // 2. 여기서 결과를 받는다.
+    const reader = new FileReader();
+    reader.onloadend = (finishedEvent) => {
+      console.log(finishedEvent);
+    }
+    
+    // 1. 파일을 읽고
+    reader.readAsDataURL(theFile);
+
+    // setLoading(true);
+    // const uploaded = await imageUploader.upload(event.target.files[0]);
+    // setLoading(false);
+    // onFileChange({
+    //   name: uploaded.original_filename,
+    //   url: uploaded.url,
+    // });
   };
 
   return (
