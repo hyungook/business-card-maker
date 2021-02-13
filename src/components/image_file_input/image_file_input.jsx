@@ -1,5 +1,8 @@
 import React, { useRef, useState } from 'react';
+// import { storageService } from '../../service/firebase';
 import styles from './image_file_input.module.css';
+import {v4 as uuidv4} from 'uuid';
+import { storageService } from '../../service/firebase';
 
 const ImageFileInput = ({ imageUploader, name, onFileChange }) => {
   const [loading, setLoading] = useState(false);
@@ -7,6 +10,7 @@ const ImageFileInput = ({ imageUploader, name, onFileChange }) => {
   const [attachment, setAttachment] = useState();
 
   const inputRef = useRef();
+
   const onButtonClick = event => {
     event.preventDefault();
     inputRef.current.click();
@@ -25,9 +29,14 @@ const ImageFileInput = ({ imageUploader, name, onFileChange }) => {
       const {currentTarget: {result},} = finishedEvent;
       setAttachment(result);
     }
-    
     // 1. 파일을 읽고
     reader.readAsDataURL(theFile);
+
+    const fileRef = storageService.ref().child(`${name}/${uuidv4}`)
+
+    // const reponse = await fileRef.putString(attachment, "data_url")
+    // console.log(reponse);
+
 
     // setLoading(true);
     // const uploaded = await imageUploader.upload(event.target.files[0]);

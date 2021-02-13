@@ -1,6 +1,8 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
+import 'firebase/storage';
+
 import dotenv from 'dotenv';
 
 // env 설치
@@ -28,3 +30,5 @@ const firebaseConfig = {
   export const firebaseDatabase = firebaseApp.database();
   export const googleProvider = new firebase.auth.GoogleAuthProvider();
   export const githubProvider = new firebase.auth.GithubAuthProvider();
+
+  export const storageService = firebase.storage();
