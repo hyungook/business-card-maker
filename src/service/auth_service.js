@@ -1,5 +1,4 @@
 import {firebaseAuth, githubProvider, googleProvider} from './firebase';
-// import firebase from 'firebase';
 
 class AuthService {
     login(providerName) {
@@ -28,8 +27,6 @@ getProvider(providerName) {
             throw new Error(`not supported provider: ${providerName}`);
     }
 }
-
-
 }
 
 export default AuthService;

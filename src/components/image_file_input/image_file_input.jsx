@@ -21,7 +21,7 @@ const ImageFileInput = ({ imageUploader, name, onFileChange }) => {
     console.log(event.target.files);
     const {target:{files},} = event;
     const theFile = files[0];
-    // console.log(theFile);
+    console.log(theFile);
     // 2. 여기서 결과를 받는다.
     const reader = new FileReader();
     reader.onloadend = (finishedEvent) => {
@@ -31,11 +31,10 @@ const ImageFileInput = ({ imageUploader, name, onFileChange }) => {
     }
     // 1. 파일을 읽고
     reader.readAsDataURL(theFile);
-
     const fileRef = storageService.ref().child(`${name}/${uuidv4}`)
 
-    // const reponse = await fileRef.putString(attachment, "data_url")
-    // console.log(reponse);
+    const reponse = await fileRef.putString(attachment, "data_url")
+    console.log(reponse.ref.getDownloadURL);
 
 
     // setLoading(true);
